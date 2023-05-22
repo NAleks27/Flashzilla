@@ -15,17 +15,20 @@ import SwiftUI
 
 // Нужно учитывать то, что если использовать вибрацию на каждую карточку то в долгосрочной перспективе это может быть раздражающим для пользователей, поэтому рекомендовано для нашего случая убрать вибрацию на успех, но оставить на неудачу
 
+// Функция abs() технически описывает, насколько далеко число от нуля, не принимая во внимание, положительное оно или отрицательное.
 
 struct CardView: View {
     let card: Card
-    var removal: (() -> Void)?                     // именно здесь объявляем свойство,
+//    var removal: (() -> Void)?                     // именно здесь объявляем свойство,
     
-    @State private var feedback = UINotificationFeedbackGenerator()
+    var removal: (() -> Void)? = nil
     
     @Environment(\.accessibilityDifferentiateWithoutColor) var differentiateWithoutColor
     @Environment(\.accessibilityVoiceOverEnabled) var voiceOverEnabled
+
+    @State private var feedback = UINotificationFeedbackGenerator()
     @State private var isShowingAnswer = false
-    @State private var offSet = CGSize.zero             // по умолчанию нет перетаскивания (вращение и смещение тесно связаны)
+    @State private var offSet = CGSize.zero          // по умолчанию нет перетаскивания (вращение и смещение тесно связаны)
     
     var body: some View {
         ZStack {

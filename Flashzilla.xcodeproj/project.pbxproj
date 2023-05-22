@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5B33AEA92A199415007E7BFF /* EditCardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B33AEA82A199415007E7BFF /* EditCardsView.swift */; };
+		5B33AEAB2A1AE8E1007E7BFF /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B33AEAA2A1AE8E1007E7BFF /* SettingsView.swift */; };
 		5B9BA9D92A0B7A5B003A8559 /* FlashzillaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9BA9D82A0B7A5B003A8559 /* FlashzillaApp.swift */; };
 		5B9BA9DB2A0B7A5B003A8559 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9BA9DA2A0B7A5B003A8559 /* ContentView.swift */; };
 		5B9BA9DD2A0B7A5D003A8559 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B9BA9DC2A0B7A5D003A8559 /* Assets.xcassets */; };
@@ -25,6 +26,7 @@
 
 /* Begin PBXFileReference section */
 		5B33AEA82A199415007E7BFF /* EditCardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCardsView.swift; sourceTree = "<group>"; };
+		5B33AEAA2A1AE8E1007E7BFF /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		5B9BA9D52A0B7A5B003A8559 /* Flashzilla.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flashzilla.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B9BA9D82A0B7A5B003A8559 /* FlashzillaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashzillaApp.swift; sourceTree = "<group>"; };
 		5B9BA9DA2A0B7A5B003A8559 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -75,6 +77,7 @@
 				5B9BA9DA2A0B7A5B003A8559 /* ContentView.swift */,
 				5BB12BED2A0E273300386D2F /* CardView.swift */,
 				5B33AEA82A199415007E7BFF /* EditCardsView.swift */,
+				5B33AEAA2A1AE8E1007E7BFF /* SettingsView.swift */,
 				5BB12BEB2A0E24D000386D2F /* Card.swift */,
 				5B9BA9F02A0C389D003A8559 /* Tests */,
 				5B9BA9DC2A0B7A5D003A8559 /* Assets.xcassets */,
@@ -187,6 +190,7 @@
 				5B33AEA92A199415007E7BFF /* EditCardsView.swift in Sources */,
 				5BB12BEE2A0E273300386D2F /* CardView.swift in Sources */,
 				5BB12BEA2A0D35B000386D2F /* UniversalAccesIOS.swift in Sources */,
+				5B33AEAB2A1AE8E1007E7BFF /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

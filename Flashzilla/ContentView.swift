@@ -24,15 +24,18 @@ extension View {
 struct ContentView: View {
     @Environment(\.accessibilityDifferentiateWithoutColor) var differentiateWithoutColor
     @Environment(\.accessibilityVoiceOverEnabled) var voiceOverEnabled
-    @State private var cards = [Card]()
-    
-    @State private var timeRemaining = 100
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     @Environment(\.scenePhase) var scenePhase
     @State private var isActive = true
-    
     @State private var showingEditView = false
+    @State private var showingSettingScreen = false
+
+    
+    @State private var cards = [Card]()
+    @State private var timeRemaining = 100
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    
+    @State private var reuseCards = false
     
     var body: some View {
         ZStack {
@@ -49,12 +52,19 @@ struct ContentView: View {
                     .background(.black.opacity(0.7))
                     .clipShape(Capsule())
                 
+                Toggle("Reuse cards", isOn: $reuseCards)
                 
                 ZStack {
                     ForEach(0..<cards.count, id: \.self) { index in
                         CardView(card: cards[index]) {
-                            withAnimation {                     // для скольжения карт
-                                removeCard(at: index)
+                            if reuseCards {
+                                withAnimation {
+                                    pushCardToBack(at: index)
+                                }
+                            } else {
+                                withAnimation {                     // для скольжения карт
+                                    removeCard(at: index)
+                                }
                             }
                         }
                         .stacked(at: index, total: cards.count)
@@ -78,13 +88,24 @@ struct ContentView: View {
                 HStack {
                     Spacer()
                     
-                    Button {
-                        showingEditView = true
-                    } label: {
-                        Image(systemName: "plus.circle")
-                            .padding()
-                            .background(.black.opacity(0.7))
-                            .clipShape(Circle())
+                    VStack {
+                        Button {
+                            showingEditView = true
+                        } label: {
+                            Image(systemName: "plus.circle")
+                                .padding()
+                                .background(.black.opacity(0.7))
+                                .clipShape(Circle())
+                        }
+                        
+                        Button {
+                            showingSettingScreen = true
+                        } label: {
+                            Image(systemName: "gear")
+                                .padding()
+                                .background(.black.opacity(0.7))
+                                .clipShape(Circle())
+                        }
                     }
                 }
                 
@@ -100,8 +121,14 @@ struct ContentView: View {
                     
                     HStack {
                         Button {
-                            withAnimation {
-                                removeCard(at: cards.count - 1)
+                            if reuseCards {
+                                withAnimation {
+                                    pushCardToBack(at: cards.count - 1)
+                                }
+                            } else {
+                                withAnimation {
+                                    removeCard(at: cards.count - 1)
+                                }
                             }
                         } label: {
                             Image(systemName: "xmark.circle")
@@ -151,6 +178,7 @@ struct ContentView: View {
             }
         }
         .sheet(isPresented: $showingEditView, onDismiss: resetCards, content: EditCardsView.init)  // синтаксический сахар
+        .sheet(isPresented: $showingSettingScreen) { SettingsView(reuseCards: $reuseCards) }
         .onAppear(perform: resetCards)
     }
     
@@ -171,6 +199,17 @@ struct ContentView: View {
             isActive = false
         }
     }
+    
+    func pushCardToBack(at index: Int) {
+        let reuseCard = cards.remove(at: index)
+        cards.insert(reuseCard, at: 0)
+        
+        if cards.isEmpty {
+            isActive = false
+        }
+    }
+    
+    
     
     func resetCards() {
         timeRemaining = 100
