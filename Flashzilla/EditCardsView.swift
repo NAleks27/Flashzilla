@@ -20,6 +20,8 @@ struct EditCardsView: View {
     @State private var newPromt = ""
     @State private var newAnswer = ""
     
+    let savePath = FileManager.documentsDirectory.appendingPathComponent("Cards")
+    
     var body: some View {
         NavigationView {
             Form {
@@ -78,16 +80,20 @@ struct EditCardsView: View {
     }
     
     func loadData() {
-        if let data = UserDefaults.standard.data(forKey: "Cards") {
-            if let decoded = try? JSONDecoder().decode([Card].self, from: data) {
-                cards = decoded
-            }
+        do {
+            let data = try Data(contentsOf: savePath)
+            cards = try JSONDecoder().decode([Card].self, from: data)
+        } catch {
+            cards = []
         }
     }
     
-    func saveData() {
-        if let data = try? JSONEncoder().encode(cards) {
-            UserDefaults.standard.set(data, forKey: "Cards")
+    func saveData() {        
+        do {
+            let data = try JSONEncoder().encode(cards)
+            try data.write(to: savePath, options: [.atomic, .completeFileProtection])
+        } catch {
+            print("Unable to save data")
         }
     }
     

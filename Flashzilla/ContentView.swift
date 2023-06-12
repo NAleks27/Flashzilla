@@ -35,6 +35,8 @@ struct ContentView: View {
     @State private var timeRemaining = 100
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
+    let savePath = FileManager.documentsDirectory.appendingPathComponent("Cards")         // здесь хранится путь к сохраненным
+    
     @State private var reuseCards = false
     
     var body: some View {
@@ -51,9 +53,7 @@ struct ContentView: View {
                     .padding(.vertical, 5)
                     .background(.black.opacity(0.7))
                     .clipShape(Capsule())
-                
-                Toggle("Reuse cards", isOn: $reuseCards)
-                
+                                
                 ZStack {
                     ForEach(0..<cards.count, id: \.self) { index in
                         CardView(card: cards[index]) {
@@ -182,11 +182,20 @@ struct ContentView: View {
         .onAppear(perform: resetCards)
     }
     
+//    func loadData() {
+//        if let data = UserDefaults.standard.data(forKey: "Cards") {
+//            if let decoded = try? JSONDecoder().decode([Card].self, from: data) {
+//                cards = decoded
+//            }
+//        }
+//    }
+    
     func loadData() {
-        if let data = UserDefaults.standard.data(forKey: "Cards") {
-            if let decoded = try? JSONDecoder().decode([Card].self, from: data) {
-                cards = decoded
-            }
+        do {
+            let data = try Data(contentsOf: savePath)
+            cards = try JSONDecoder().decode([Card].self, from: data)
+        } catch {
+            cards = []
         }
     }
     
@@ -208,8 +217,6 @@ struct ContentView: View {
             isActive = false
         }
     }
-    
-    
     
     func resetCards() {
         timeRemaining = 100
